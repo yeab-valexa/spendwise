@@ -5,22 +5,12 @@ import type { FormEvent } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export default function AuthGate({ supabase }: { supabase: SupabaseClient }) {
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup">("signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
-
-  async function google() {
-    setError("");
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    });
-    if (error) setError(error.message);
-    // otherwise the browser redirects to Google
-  }
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -38,8 +28,9 @@ export default function AuthGate({ supabase }: { supabase: SupabaseClient }) {
       if (error) setError(error.message);
       else if (!data.session)
         setInfo(
-          "Account created — check your email for a confirmation link, then sign in. (Or disable “Confirm email” in Supabase to skip this.)"
+          "Account created! Check your email for a confirmation link, then come back and sign in."
         );
+      // if data.session is present, you're logged in immediately
     }
     setLoading(false);
   }
@@ -51,15 +42,9 @@ export default function AuthGate({ supabase }: { supabase: SupabaseClient }) {
         <h1>Spendwise</h1>
         <p className="auth-sub">
           {mode === "signin"
-            ? "Sign in to your account."
-            : "Create an account to sync across your devices."}
+            ? "Welcome back."
+            : "Create an account to start tracking your spending."}
         </p>
-
-        <button type="button" className="btn google full" onClick={google}>
-          <span className="g-mark">G</span> Continue with Google
-        </button>
-
-        <div className="auth-divider">or</div>
 
         <form onSubmit={submit}>
           <input
