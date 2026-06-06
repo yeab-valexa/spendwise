@@ -12,6 +12,16 @@ export default function AuthGate({ supabase }: { supabase: SupabaseClient }) {
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
 
+  async function google() {
+    setError("");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    });
+    if (error) setError(error.message);
+    // otherwise the browser redirects to Google
+  }
+
   async function submit(e: FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -45,6 +55,12 @@ export default function AuthGate({ supabase }: { supabase: SupabaseClient }) {
             ? "Welcome back."
             : "Create an account to start tracking your spending."}
         </p>
+
+        <button type="button" className="btn google full" onClick={google}>
+          <span className="g-mark">G</span> Continue with Google
+        </button>
+
+        <div className="auth-divider">or</div>
 
         <form onSubmit={submit}>
           <input
