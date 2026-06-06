@@ -494,6 +494,10 @@ details[open] .details-summary::before {
   min-width: 0;
   max-width: 100%;
 }
+/* Submit buttons span the full row (not squeezed into one grid column) */
+.detail-form .btn {
+  grid-column: 1 / -1;
+}
 .month-filter {
   font-weight: 600;
   cursor: pointer;
@@ -572,6 +576,16 @@ details[open] .details-summary::before {
   font-size: 0.76rem;
   color: var(--muted);
   margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* On phones / touch devices, drop the inline × (swipe-left to delete, or tap a
+   row → Delete in the edit sheet) so the description gets more room. */
+@media (hover: none), (max-width: 540px) {
+  .txn-del {
+    display: none;
+  }
 }
 .txn-amount {
   font-weight: 800;
