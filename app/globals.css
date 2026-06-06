@@ -462,6 +462,7 @@ details[open] .details-summary::before {
   font-weight: 600;
   color: var(--muted);
   gap: 6px;
+  min-width: 0; /* allow grid cells to shrink instead of overflowing */
 }
 .detail-form label.full {
   grid-column: 1 / -1;
@@ -485,9 +486,19 @@ details[open] .details-summary::before {
   border-color: var(--brand);
   box-shadow: 0 0 0 4px var(--brand-soft);
 }
+/* Controls fill their grid cell and can shrink (prevents mobile overflow).
+   Scoped to the detail form so .month-filter keeps its inline width. */
+.detail-form input,
+.detail-form select {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
 .month-filter {
   font-weight: 600;
   cursor: pointer;
+  min-width: 0;
+  max-width: 60%;
 }
 
 /* ============================================================
