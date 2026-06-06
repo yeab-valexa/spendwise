@@ -86,19 +86,25 @@ analysis runs on your existing Claude subscription at no extra cost.
 
 ---
 
-## Use it on your phone
+## Deploy (free, with auto-deploys)
 
-The cleanest option is to deploy it (free) so it's reachable anywhere:
+Deploy to [Vercel](https://vercel.com) so it's reachable anywhere and redeploys on
+every `git push`:
 
-```bash
-npm i -g vercel
-vercel
-```
+1. Go to **[vercel.com/new](https://vercel.com/new)** and **import this GitHub repo**.
+2. Framework is auto-detected (Next.js) — leave the build settings as-is.
+3. Add **Environment Variables** (same names as `.env.local`):
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - (These are `NEXT_PUBLIC_*`, so they must be set **before** the build.)
+4. Click **Deploy**.
+5. In **Supabase → Authentication → URL Configuration**, set **Site URL** to your
+   Vercel URL and add `https://<your-app>.vercel.app/**` to **Redirect URLs** (so
+   Google / email login redirects back to the live site). Keep `http://localhost:3000/**`
+   for local dev.
 
-Add the same env vars in the Vercel dashboard, and in Supabase add your Vercel URL
-under **Authentication → URL Configuration**. Then open the site on your phone and
-**Add to Home Screen**. Because data is in Supabase, your phone and laptop share
-the same synced history.
+On your phone, open the deployed URL and **Add to Home Screen**. Because data lives
+in Supabase, your phone and laptop share the same synced history.
 
 ---
 
